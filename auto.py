@@ -71,3 +71,22 @@ def OpenLink(li, num):
         driver.get(li[n])
         time.sleep(num)
         print("\n")
+
+def FbLogin():
+    #click the login button
+    Clikclogin = button = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[role='button']"))).click()
+    driver.implicitly_wait(10)
+
+    #target username
+    username = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='email']")))
+    password = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='pass']")))
+
+    #enter username and password (don't worry I made this facebook account just for doing the scrawling and and collecting data)
+    username.clear()
+    username.send_keys("info.sensmart@gmail.com")
+    password.clear()
+    password.send_keys("19734682")
+
+    driver.implicitly_wait(10)
+    #target the login button and click it
+    button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='button']"))).click()
