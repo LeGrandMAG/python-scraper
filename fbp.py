@@ -11,6 +11,10 @@ import json
 import pprint
 import csv
 
+import time
+
+
+
 
 
 chrome_options = webdriver.ChromeOptions()
@@ -23,9 +27,7 @@ driver = webdriver.Chrome('C:/Users/maglo/chromedriver.exe',options=chrome_optio
 
 wait = WebDriverWait(driver, 10)
 #open the webpage ( I am using the mobile.facebook because it has less functionalilty so it will be "harder" for facebook bot to track us?!)
-driver.get("https://mobile.facebook.com/groups_browse/your_groups", )
-
-
+driver.get("https://mobile.facebook.com/groups/3323854697841336/", )
 
 #click the login button
 Clikclogin = button = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a[role='button']"))).click()
@@ -41,51 +43,85 @@ username.send_keys("info.sensmart@gmail.com")
 password.clear()
 password.send_keys("19734682")
 
-driver.implicitly_wait(10)
+driver.implicitly_wait(2)
 #target the login button and click it
 button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='button']"))).click()
 
 links = []
 titles = []
 
+try:
+    element = driver.find_element(By.CLASS_NAME, "_7hkg").get_attribute('href')
+except:
+    print("This class does not exist")  
 
-element = driver.find_element(By.CLASS_NAME, "_7hkg").get_attribute('href')
-
-driver.implicitly_wait(10)
-time. sleep(5)
+driver.implicitly_wait(2)
+time.sleep(5)
 
 #I was worried that the webdrive would not identify the different page, so I had to wait and press the "END" Key multiple times
 webdriver.ActionChains(driver).key_down(Keys.END).perform()
-time. sleep(3)
+time.sleep(3)
 webdriver.ActionChains(driver).key_down(Keys.END).perform()
-time. sleep(3)
+time.sleep(3)
 webdriver.ActionChains(driver).key_down(Keys.END).perform()
-time. sleep(3)
+time.sleep(5)
+class_name = ["_4gus", "_1-sk", "_4guw", "_4gut", "_5rgt _5nk5 _5msi", "_il"]
 
-WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "_7hkg")))
+post={
+    'details': []
+}
+
+love =[]
+
+print("Now collecting the data", end="")
+time.sleep(2)
+for e in range(3):
+    print('.', end="")
+    time.sleep(2)
+print('\n')
+
+def Collect():
+    for b in class_name:
+
+        for a in range(3)
+            webdriver.ActionChains(driver).key_down(Keys.END).perform()
+            time.sleep(1)
+        time.sleep(5)
+        lili= love.append(driver.find_elements(By.CLASS_NAME, b))
+        webdriver.ActionChains(driver).key_down(Keys.END).perform()*3
+        print(b + " exists")
+        for a in love:
+            for u in a:
+                ex = u.text
+                if (ex not in post['details']):
+                    print(ex)
+                    print("---------------------------------------------------------------------------------------------------")
+                    time.sleep(2)
+                    post['details'].append(ex)
+                    print("\n")
+        time. sleep(3)
+        driver.close()  
+        print("Driver is closed\n")
 
 
-#"_7hjkg" is the class name of the in the HTML file
-link = driver.find_elements(By.CLASS_NAME, "_7hkg")
-for e in link:
-    a = e.get_attribute('href')
-    if (a != None):
-        links.append(a)
-        
-
-title = driver.find_elements(By.XPATH, "//div[@class='h3z9dlai ld7irhx5 pbevjfx6 igjjae4c']")
-
-for f in title:
-    c = f.text
-    if (c != None):
-        titles.append(c)
 
 
 
+def SaveJason():    
+    a_file = open("data.json", "w", -1, 'utf-8')
+    json.dump(post, a_file)
+    a_file.close()
+
+    print(">>>>>>>>>>>> HERE IS YOUR FILE <<<<<<<<<<<<\n\n"*5)
+    a_file = open("data.json", "r",-1, 'utf-8')
+    output = a_file.read()
+    print(output)
+
+    print("File saved successfully")
 
 
+##title = "class _4gus "
+##state = "_4gut"
+##price = "_4guw"
 
-
-
-
-#Now need to find a way to to collect the posts from the groups in the json file
+##content="_il"
