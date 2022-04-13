@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
 import os
 import wget
 import time
@@ -16,7 +16,7 @@ class_name = ["_4gus", "_1-sk", "_4guw", "_4gut", "_5rgt _5nk5 _5msi", "_il"]
 post={
     'details': []
 }
-auto= ["https://mobile.facebook.com/groups/3323854697841336/?ref=group_browse",
+groups = ["https://mobile.facebook.com/groups/3323854697841336/?ref=group_browse",
 "https://mobile.facebook.com/groups/2417749508533529/?ref=group_browse",
 "https://mobile.facebook.com/groups/2396795340453227/?ref=group_browse",
 "https://mobile.facebook.com/groups/2232354350372325/?ref=group_browse",
@@ -54,7 +54,6 @@ auto= ["https://mobile.facebook.com/groups/3323854697841336/?ref=group_browse",
 "https://mobile.facebook.com/groups/4458091350904337/?ref=group_browse",
 "https://mobile.facebook.com/groups/1659094737714974/?ref=group_browse"]
 
-
 sec= int(input("input the processing time: "))
 scroll=int(input("input the number of time you want to scroll: "))
 
@@ -78,7 +77,7 @@ chrome_options.add_experimental_option("prefs",prefs)
 
 
 #specify the path to chromedriver.exe (download and save on your computer)
-driver = webdriver.Chrome('C:/Users/maglo/chromedriver.exe',options=chrome_options)
+driver = webdriver.Chrome('C:/Users/maglo/OneDrive/Documents/chromedriver.exe',options=chrome_options)
 
 wait = WebDriverWait(driver, 2)
 #open the webpage ( I am using the mobile.facebook because it has less functionalilty so it will be "harder" for facebook bot to track us?!)
@@ -86,7 +85,7 @@ wait = WebDriverWait(driver, 2)
 
 
 
-def OpenLink(li, num):
+def OpenLink(li):
         print("Now processing Page: "+"\n"+ li)
         driver.get(li)
         print(">>>Please wait!<<<")

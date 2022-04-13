@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
 import os
 import wget
 import time
@@ -11,12 +11,17 @@ import json
 import pprint
 import csv
 
+
+#class for the posts
 class_name = ["_4gus", "_1-sk", "_4guw", "_4gut", "_5rgt _5nk5 _5msi", "_il"]
 
 post={
     'details': []
 }
-auto= ["https://mobile.facebook.com/groups/3323854697841336/?ref=group_browse",
+
+
+# list of the link for the Facebook groups
+auto = ["https://mobile.facebook.com/groups/3323854697841336/?ref=group_browse",
 "https://mobile.facebook.com/groups/2417749508533529/?ref=group_browse",
 "https://mobile.facebook.com/groups/2396795340453227/?ref=group_browse",
 "https://mobile.facebook.com/groups/2232354350372325/?ref=group_browse",
@@ -55,13 +60,63 @@ auto= ["https://mobile.facebook.com/groups/3323854697841336/?ref=group_browse",
 "https://mobile.facebook.com/groups/1659094737714974/?ref=group_browse"]
 
 
+
+
+# tuple of the phone models
+PHONE_MODEL = [
+    ('--Phone model--', '--Phone model--'),
+    ('Iphone 5', 'Iphone 5'),
+    ('Iphone 6', 'Iphone 6'),
+    ('Iphone 6+', 'Iphone 6+'),
+    ('Iphone7' , 'Iphone7'),
+    ('Iphone 7+', 'Iphone 7+'),
+    ('Iphone 8','Iphone 8'),
+    ('Iphone 8+', 'Iphone 8+'),			
+    ('Iphone X','Iphone X'),				
+    ('Iphone XR', 'Iphone XR'),				
+    ('Iphone XS max', 'Iphone XS max'),			
+    ('Iphone 11', 'Iphone 11'),
+    ('Iphone 11 Pro', 'Iphone 11 Pro'),	
+    ('Iphone 11 Pro Max', 'Iphone 11 Pro Max'),		
+    ('Iphone 12', 'Iphone 12'),	
+    ('Iphone 12 pro', 'Iphone 12 pro'),		
+    ('Iphone 12 pro max', 'Iphone 12 pro max'),			
+    ('Iphone 13', 'Iphone 13'),	
+    ('Iphone 13 pro max', 'Iphone 13 pro max'),			
+    ('Samsung s6', 'Samsung s6'),				
+    ('Samsung s6 edge', 'Samsung s6 edge'),				
+    ('Samsung s6 edge+', 'Samsung s6 edge+'),				
+    ('Samsung s7', 'Samsung s7'),				
+    ('Samsung s7 edge', 'Samsung s7 edge'),			
+    ('Samsung s8', 'Samsung s8'),				
+    ('Samsung s8 edge', 'Samsung s8 edge'),				
+    ('Samsung s8 edge+', 'Samsung s8 edge+'),				
+    ('Samsung s9', 'Samsung s9'),				
+    ('Samsung s10', 'Samsung s10'),				
+    ('Samsung s10+', 'Samsung s10+'),				
+    ('Samsung Note 8', 'Samsung Note 8'),				
+    ('Samsung Note 9,', 'Samsung Note 9'),			
+    ('Samsung Note 9 Duos', 'Samsung Note 9 Duos'),			
+    ('Samsung Note 10', 'Samsung Note 10'),			
+    ('Techno Pop3', 'Techno Pop3'),					
+    ('Techno Spark4', 'Techno Spark4'),				
+    ('Techno Spark 5', 'Techno Spark 5'),				
+    ('Techno Spark 5 Air', 'Techno Spark 5 Air'),				
+    ('Techno Camon 16s', 'Techno Camon 16s'),				
+    ('Techno Camo 16', 'Techno Camo 16'),				
+    ('Techno Camon 15 Premier', 'Techno Camon 15 Premier')
+]
+
+
+
+login_credential = {'email': 'info.sensmart@gmail.com',
+                    'password': '19734682' }
 sec= int(input("input the processing time: "))
 scroll=int(input("input the number of time you want to scroll: "))
 
 words=[]
 #listnum = int(input("How many word in the list: "))
 def WordList(mot,o):
-    
     n = 1
     while(n>0):
         new = str(input("Insert the keyword #" + str(n) + ": "))
@@ -78,7 +133,7 @@ chrome_options.add_experimental_option("prefs",prefs)
 
 
 #specify the path to chromedriver.exe (download and save on your computer)
-driver = webdriver.Chrome('C:/Users/maglo/chromedriver.exe',options=chrome_options)
+driver = webdriver.Chrome('C:/Users/maglo/OneDrive/Documents/chromedriver.exe',options=chrome_options)
 
 wait = WebDriverWait(driver, 2)
 #open the webpage ( I am using the mobile.facebook because it has less functionalilty so it will be "harder" for facebook bot to track us?!)
@@ -103,9 +158,9 @@ def FbLogin(num):
 
     #enter username and password (don't worry I made this facebook account just for doing the scrawling and and collecting data)
     username.clear()
-    username.send_keys("info.sensmart@gmail.com")
+    username.send_keys(login_credential['email'])
     password.clear()
-    password.send_keys("19734682")
+    password.send_keys(login_credential['password'])
 
     driver.implicitly_wait(num)
     #target the login button and click it
