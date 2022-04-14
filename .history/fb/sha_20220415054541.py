@@ -11,8 +11,6 @@ import csv
 import pandas as pd
 import random
 import emoji
-from  datetime import datetime, timedelta
-
 
 
 
@@ -24,11 +22,6 @@ df = pd.read_csv('es.csv')
 df.columns = ["names"]
 gname = df['names']
 
-#=============useful variable=================
-prod = 0
-prodstock = []
-sec = 3600
-times = 0
 rand = random.randrange
 # setting up the link to use in the project
 
@@ -197,13 +190,7 @@ def changeuser(driver):
 
 #=====share in other group============
 
-#For clicking on the sharing button
-def share(driver):
-    time.sleep(2)
-    driver.find_element(By. CSS_SELECTOR,  "div[class ='tvfksri0 ozuftl9m']>div>div:nth-child(3)").click()
-    time.sleep(2)
-    driver.find_element(By.CSS_SELECTOR, "div[ class = 'o36gj0jk eg9m0zos d76ob5m9']>div>div>div>div:nth-child(4)").click()
-
+v
 
 #===========SEARCH A GROUP WHERE TO PSOT AT============
 
@@ -302,48 +289,3 @@ def productpost(driver, gname, descp, prod,times):
             break
     prod += 1
         
-#======calculating the remaining time=============
-def titi():
-    slt = '%d/%m/%Y %H:%M:%S.%f'
-    now = datetime.now()
-    n = 60
-    # Add 60 minutes to datetime object
-    final_time = now + timedelta(minutes=n)
-    # Convert datetime object to string in specific format 
-    final_time_str = final_time.strftime('%H:%M')
-    return final_time_str
-
-
-
-
-
-#=================main function=====================
-
-#main bot
-driver = webdriver.Chrome('C:/Users/maglo/OneDrive/Documents/chromedriver.exe',options=chrome_options)
-Log(driver)
-if (checklink(link)):
-    time.sleep(2)
-    
-    while(True):
-        rg = random.randint(1, len(productLis)-1)
-        if rg in prodstock:
-            print(f" This has already been posted already posted")
-        else:
-            if rg > 1:
-                driver.get(productLis[rg])
-                if(checklink(productLis[rg])):
-                    productpost(driver, gname, descp, prod,times)
-            
-            prodstock.append(rg)
-            print(f"{8-len(prodstock)} more products to go.")
-        
-        if (8-len(prodstock) <3):
-            break
-        if (times >= 100 and times % 50 == 0):
-            time.sleep(1800)
-            print(f"You have posted {times} let's takke {sec/60} minutes brake")
-            print(f" we will start back at")
-            print(f" we will start back at {titi()}")
-else:
-    print("Could not login")

@@ -4,15 +4,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import WebDriverException
-from selenium.common.exceptions import UnexpectedAlertPresentException
 import time
 import schedule
 import csv
 import pandas as pd
 import random
 import emoji
-from  datetime import datetime, timedelta
-
 
 
 
@@ -24,11 +21,6 @@ df = pd.read_csv('es.csv')
 df.columns = ["names"]
 gname = df['names']
 
-#=============useful variable=================
-prod = 0
-prodstock = []
-sec = 3600
-times = 0
 rand = random.randrange
 # setting up the link to use in the project
 
@@ -132,6 +124,10 @@ chrome_options.add_experimental_option("prefs",prefs)
 #Launch the browser
 driver = webdriver.Chrome('C:/Users/maglo/OneDrive/Documents/chromedriver.exe',options=chrome_options)
 
+
+
+
+
 #=============================================FUNCTIONS===============================================================
 
 
@@ -144,206 +140,4 @@ def Log(driver):
     time.sleep(5)
     driver.find_element(By.TAG_NAME, "button[name='login']").click()
     
-#==========CHECK LINK==============
-link ="https://mobile.facebook.com/login/save-device/?login_source=login#_=_"
-
-
-def checklink(link):
-    d = WebDriverWait(driver, 30).until(EC.url_to_be(link))
-    time.sleep(3)
-    return d
-
-
-#============COLLECT GROUP NAME ===============
-
-#THIS FUNCTION WILL COLLECT ALL THE NAME OF THE GROUP I AM FOLLOWING
-def grouploop(driver,gr):
-    
-    pp = driver.find_element(By.CSS_SELECTOR, "div[class ='b20td4e0 muag1w35']>div>div")
-    for j in range(6):
-        pp.send_keys(Keys.END)
-        time.sleep(2)
-
-    love = driver.find_elements(By.CSS_SELECTOR, "div[class ='b20td4e0 muag1w35']>div")
-
-    for i in range(len(love)-1):
-        ol = love[i].find_element(By.CSS_SELECTOR, "span").text
-        if ol not in gr:
-            gr.append(ol)
-            time.sleep(2)
-        else:
-            time.sleep(2)
-    
-    return gr
-
-#======= changing the user before posting =============
-def changeuser(driver):
-    time.sleep(3)
-    try:
-        v = driver.find_element(By.TAG_NAME, "html")
-        v.send_keys(Keys.END)
-    except UnexpectedAlertPresentException:
-        time.sleep(10)
-        print("Alert was seen, let's wait at least 10 seconds")
-        v = driver.find_element(By.TAG_NAME, "html")
-        v.send_keys(Keys.END)
-    d = WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR,"button[aria-label='Sélection du profil à utiliser']")))
-    driver.find_element(By.CSS_SELECTOR,"button[aria-label='Sélection du profil à utiliser']").click()
-    #d.find_element(By.CSS_SELECTOR, "button[aria-label='Sélection du profil à utiliser']").click()
-    time.sleep(5)
-    driver.find_element(By. CSS_SELECTOR,  "div[ class ='l9j0dhe7 ama3r5zh']>div>div>div>div>div>div:nth-child(3)").click()
-    time.sleep(2)
-    #driver.find_element(By.CSS_SELECTOR, "div[aria-label='Envoyez ceci à vos amis ou publiez-le sur votre journal.']").click()
-
-#=====share in other group============
-
-#For clicking on the sharing button
-def share(driver):
-    time.sleep(2)
-    driver.find_element(By. CSS_SELECTOR,  "div[class ='tvfksri0 ozuftl9m']>div>div:nth-child(3)").click()
-    time.sleep(2)
-    driver.find_element(By.CSS_SELECTOR, "div[ class = 'o36gj0jk eg9m0zos d76ob5m9']>div>div>div>div:nth-child(4)").click()
-
-
-#===========SEARCH A GROUP WHERE TO PSOT AT============
-
-
-#THI FUNCTION WILL TYPE THE GROUP NAME AND CHOOSE IT
-
-def tsearch(driver, gr, n):
-    time.sleep(2)
-    v = driver.find_element(By.TAG_NAME, "html")
-
-    search = driver.find_element(By.CSS_SELECTOR, "input[aria-label='Rechercher des groupes']")
-    if (search.get_attribute('value') !=''):
-        search.send_keys(Keys.CONTROL, 'a')
-        time.sleep(1)
-        search.send_keys(Keys.DELETE)
-        time.sleep(1)
-    try:
-        search.send_keys(gr[n][:30])
-        time.sleep(3)
-        lo = driver.find_element(By.CSS_SELECTOR, "div[class='b20td4e0 muag1w35']>div>div")
-        lo.click()
-    except WebDriverException:
-        pass
-    
-
-#========write the post description =======================
-
-def createpost(driver, descp):
-
-    time.sleep(2)
-    content = driver.find_element(By.CSS_SELECTOR, "div[class = 'taijpn5t j83agx80']")
-    ub = content.find_element(By.CSS_SELECTOR, "br[data-text='true']")
-    z = descp[random.randrange(0,len(descp)-1)]
-
-    if (ub.text != ""):
-        z = descp[random.randrange(0,len(descp)-1)]
-        print(z)
-        time.sleep(3)
-        ub.send_keys(z)
-        #webdriver.ActionChains(driver).send_keys(descp[random.randrange(0,len(descp))])
-    else:
-        time.sleep(2)
-        ub.send_keys(z)
-        #webdriver.ActionChains(driver).send_keys(descp[random.randrange(0,len(descp))])
-        ##content.send_keys(descp[random.randrange(0,len(descp))])
-
-
-
-
-
-
-    
-
-
-#================click the publish button=====================
-def publish(driver):
-    time.sleep(3)
-    driver.find_element(By.CSS_SELECTOR, "div[aria-label='Publier'").click()
-    time.sleep(5)
-
-times = 0
-def productpost(driver, gname, descp, prod,times):
-    stock = []
-    numg = 0
-    while(True):
-        group = random.randint(1,len(gname)-1)
-
-        #number of groups
-        
-        driver.refresh()
-        time.sleep(5)
-        changeuser(driver)
-        
-        share(driver)
-        if (group in stock):
-            print("This group already exist")
-        else:
-            try:
-                tsearch(driver, gname, group)
-                createpost(driver,descp)
-                publish(driver)
-                time.sleep(3)
-            except WebDriverException:
-                print("could not print the file")
-                driver.refresh()
-                time.sleep(3)
-            numg += 1
-            times +=1
-            stock.append(group)
-            print("------------------------------")
-            
-            print(f"Product {prod} was posted in {numg} groups far...")
-        
-        
-        if (len(stock) >= 100):
-            break
-    prod += 1
-        
-#======calculating the remaining time=============
-def titi():
-    slt = '%d/%m/%Y %H:%M:%S.%f'
-    now = datetime.now()
-    n = 60
-    # Add 60 minutes to datetime object
-    final_time = now + timedelta(minutes=n)
-    # Convert datetime object to string in specific format 
-    final_time_str = final_time.strftime('%H:%M')
-    return final_time_str
-
-
-
-
-
-#=================main function=====================
-
-#main bot
-driver = webdriver.Chrome('C:/Users/maglo/OneDrive/Documents/chromedriver.exe',options=chrome_options)
-Log(driver)
-if (checklink(link)):
-    time.sleep(2)
-    
-    while(True):
-        rg = random.randint(1, len(productLis)-1)
-        if rg in prodstock:
-            print(f" This has already been posted already posted")
-        else:
-            if rg > 1:
-                driver.get(productLis[rg])
-                if(checklink(productLis[rg])):
-                    productpost(driver, gname, descp, prod,times)
-            
-            prodstock.append(rg)
-            print(f"{8-len(prodstock)} more products to go.")
-        
-        if (8-len(prodstock) <3):
-            break
-        if (times >= 100 and times % 50 == 0):
-            time.sleep(1800)
-            print(f"You have posted {times} let's takke {sec/60} minutes brake")
-            print(f" we will start back at")
-            print(f" we will start back at {titi()}")
-else:
-    print("Could not login")
+#CHECK LINK

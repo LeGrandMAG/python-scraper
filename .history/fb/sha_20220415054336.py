@@ -11,8 +11,6 @@ import csv
 import pandas as pd
 import random
 import emoji
-from  datetime import datetime, timedelta
-
 
 
 
@@ -24,11 +22,6 @@ df = pd.read_csv('es.csv')
 df.columns = ["names"]
 gname = df['names']
 
-#=============useful variable=================
-prod = 0
-prodstock = []
-sec = 3600
-times = 0
 rand = random.randrange
 # setting up the link to use in the project
 
@@ -176,34 +169,6 @@ def grouploop(driver,gr):
     
     return gr
 
-#======= changing the user before posting =============
-def changeuser(driver):
-    time.sleep(3)
-    try:
-        v = driver.find_element(By.TAG_NAME, "html")
-        v.send_keys(Keys.END)
-    except UnexpectedAlertPresentException:
-        time.sleep(10)
-        print("Alert was seen, let's wait at least 10 seconds")
-        v = driver.find_element(By.TAG_NAME, "html")
-        v.send_keys(Keys.END)
-    d = WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR,"button[aria-label='Sélection du profil à utiliser']")))
-    driver.find_element(By.CSS_SELECTOR,"button[aria-label='Sélection du profil à utiliser']").click()
-    #d.find_element(By.CSS_SELECTOR, "button[aria-label='Sélection du profil à utiliser']").click()
-    time.sleep(5)
-    driver.find_element(By. CSS_SELECTOR,  "div[ class ='l9j0dhe7 ama3r5zh']>div>div>div>div>div>div:nth-child(3)").click()
-    time.sleep(2)
-    #driver.find_element(By.CSS_SELECTOR, "div[aria-label='Envoyez ceci à vos amis ou publiez-le sur votre journal.']").click()
-
-#=====share in other group============
-
-#For clicking on the sharing button
-def share(driver):
-    time.sleep(2)
-    driver.find_element(By. CSS_SELECTOR,  "div[class ='tvfksri0 ozuftl9m']>div>div:nth-child(3)").click()
-    time.sleep(2)
-    driver.find_element(By.CSS_SELECTOR, "div[ class = 'o36gj0jk eg9m0zos d76ob5m9']>div>div>div>div:nth-child(4)").click()
-
 
 #===========SEARCH A GROUP WHERE TO PSOT AT============
 
@@ -254,96 +219,4 @@ def createpost(driver, descp):
 
 
 
-
-    
-
-
-#================click the publish button=====================
-def publish(driver):
-    time.sleep(3)
-    driver.find_element(By.CSS_SELECTOR, "div[aria-label='Publier'").click()
-    time.sleep(5)
-
-times = 0
-def productpost(driver, gname, descp, prod,times):
-    stock = []
-    numg = 0
-    while(True):
-        group = random.randint(1,len(gname)-1)
-
-        #number of groups
-        
-        driver.refresh()
-        time.sleep(5)
-        changeuser(driver)
-        
-        share(driver)
-        if (group in stock):
-            print("This group already exist")
-        else:
-            try:
-                tsearch(driver, gname, group)
-                createpost(driver,descp)
-                publish(driver)
-                time.sleep(3)
-            except WebDriverException:
-                print("could not print the file")
-                driver.refresh()
-                time.sleep(3)
-            numg += 1
-            times +=1
-            stock.append(group)
-            print("------------------------------")
-            
-            print(f"Product {prod} was posted in {numg} groups far...")
-        
-        
-        if (len(stock) >= 100):
-            break
-    prod += 1
-        
-#======calculating the remaining time=============
-def titi():
-    slt = '%d/%m/%Y %H:%M:%S.%f'
-    now = datetime.now()
-    n = 60
-    # Add 60 minutes to datetime object
-    final_time = now + timedelta(minutes=n)
-    # Convert datetime object to string in specific format 
-    final_time_str = final_time.strftime('%H:%M')
-    return final_time_str
-
-
-
-
-
-#=================main function=====================
-
-#main bot
-driver = webdriver.Chrome('C:/Users/maglo/OneDrive/Documents/chromedriver.exe',options=chrome_options)
-Log(driver)
-if (checklink(link)):
-    time.sleep(2)
-    
-    while(True):
-        rg = random.randint(1, len(productLis)-1)
-        if rg in prodstock:
-            print(f" This has already been posted already posted")
-        else:
-            if rg > 1:
-                driver.get(productLis[rg])
-                if(checklink(productLis[rg])):
-                    productpost(driver, gname, descp, prod,times)
-            
-            prodstock.append(rg)
-            print(f"{8-len(prodstock)} more products to go.")
-        
-        if (8-len(prodstock) <3):
-            break
-        if (times >= 100 and times % 50 == 0):
-            time.sleep(1800)
-            print(f"You have posted {times} let's takke {sec/60} minutes brake")
-            print(f" we will start back at")
-            print(f" we will start back at {titi()}")
-else:
-    print("Could not login")
+#======= changing the user
